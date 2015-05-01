@@ -4,7 +4,9 @@ Compile your Javascript translations using the asset pipeline instead of rake ta
 
 ## Installation
 
-`gem install i18n-js-assets` or put it in your Gemfile:
+`gem install i18n-js-assets`
+
+or put it in your Gemfile:
 
 ```ruby
 gem 'i18n-js-assets'
@@ -46,6 +48,8 @@ Require these files as you normally would. For example in your app's main `appli
 ```
 //= require i18n/translations
 ```
+
+Voilà! The translations should now be available in your Javascript code just as if you'd used i18n-js and its rake tasks.
 
 ## Authors
 
