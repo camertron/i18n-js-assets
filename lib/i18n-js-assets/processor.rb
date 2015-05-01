@@ -7,23 +7,40 @@ module I18nJsAssets
     end
 
     def evaluate(scope, locals, &block)
-      options = YAML.load(data).with_indifferent_access
+      options = (YAML.load(data) || {}).with_indifferent_access
       only = options.fetch(:only, '*')
       exceptions = [options.fetch(:except, [])].flatten
 
       # handle newer and older versions of i18n-js
-      translations = if I18n::JS.method(:segment_for_scope).arity == 2
-        I18n::JS.segment_for_scope(only, exceptions)
+      translations = if i18n_js.method(:segment_for_scope).arity == 2
+        i18n_js.segment_for_scope(only, exceptions)
       else
-        I18n::JS.segment_for_scope(only)
+        i18n_js.segment_for_scope(only)
       end
 
-      result = %(I18n.translations || (I18n.translations = {});\n)
-      translations.each_pair do |locale, translations_for_locale|
-        result << %(I18n.translations["#{locale}"] = #{translations_for_locale.to_json};\n);
-      end
+      construct_javascript_from(translations)
+    end
 
-      result
+    protected
+
+    def construct_javascript_from(translations)
+      %(I18n.translations || (I18n.translations = {});\n).tap do |result|
+        translations.each_pair do |locale, locale_translations|
+          result << construct_javascript_for_locale(locale, locale_translations)
+        end
+      end
+    end
+
+    def construct_javascript_for_locale(locale, translations)
+      %(I18n.translations["#{locale}"] = #{translations.to_json};\n)
+    end
+
+    def i18n_js
+      if Kernel.const_defined?(:SimplesIdeias)
+        SimplesIdeias::I18n
+      else
+        I18n::JS
+      end
     end
   end
 end
