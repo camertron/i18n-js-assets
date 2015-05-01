@@ -8,6 +8,7 @@ require 'bundler'
 require 'rspec/core/rake_task'
 require 'rubygems/package_task'
 
+require 'rails'
 require 'i18n-js-assets'
 
 Bundler::GemHelper.install_tasks
