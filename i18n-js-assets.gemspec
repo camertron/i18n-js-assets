@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'tilt'
 
   s.require_path = 'lib'
-  s.files = Dir["{lib,spec}/**/*", "Gemfile", "History.txt", "README.md", "Rakefile", "i18n-js-assets.gemspec"]
+  s.files = Dir["{lib,spec}/**/*", "Gemfile", "README.md", "Rakefile", "i18n-js-assets.gemspec"]
 end
