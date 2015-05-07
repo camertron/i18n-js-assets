@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/camertron/i18n-js-assets.svg)](https://travis-ci.org/camertron/i18n-js-assets)
+
 ## i18n-js-assets
 
 Compile your Javascript translations using the asset pipeline instead of rake tasks.
