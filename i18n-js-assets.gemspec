@@ -14,7 +14,8 @@ Gem::Specification.new do |s|
   s.has_rdoc = true
 
   s.add_dependency 'i18n-js'
-  s.add_dependency 'railties', '>= 3.1.0'
+  s.add_dependency 'railties', ENV['RAILS_VERSION'] || '>= 3.2.0', '< 5'
+  s.add_dependency 'tzinfo'
   s.add_dependency 'sprockets-rails'
   s.add_dependency 'tilt'
 

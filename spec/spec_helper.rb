@@ -23,3 +23,11 @@ end
 require 'i18n-js-assets'
 
 I18nJsAssets::DummyApplication.initialize!
+
+RSpec.configure do |config|
+  def unescape_unicode(str)
+    str.gsub(/\\u([\da-fA-F]{4})/) do |m|
+      [$1].pack('H*').unpack('n*').pack('U*')
+    end
+  end
+end
