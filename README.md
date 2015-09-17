@@ -53,6 +53,10 @@ Require these files as you normally would. For example in your app's main `appli
 
 Voilà! The translations should now be available in your Javascript code just as if you'd used i18n-js and its rake tasks.
 
+## License
+
+Licensed under the MIT license. See LICENSE for details.
+
 ## Authors
 
 * Cameron C. Dutro: http://github.com/camertron
