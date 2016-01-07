@@ -6,7 +6,7 @@ describe 'precompilation' do
   it 'precompiles correctly' do
     assets_config.localized.add(
       "translations/precompilable.js", "translations/precompilable-%{locale}.js",
-      precompile: true
+      precompile: %w(en es)
     )
 
     # generated.apply! will trigger localized.apply! via before hook

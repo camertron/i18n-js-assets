@@ -44,7 +44,7 @@ module I18nJsAssets
     end
 
     def locales
-      if locs = options[:locales]
+      if locs = options[:precompile]
         locs.respond_to?(:call) ? locs.call : locs
       else
         if Kernel.const_defined?(:I18n)

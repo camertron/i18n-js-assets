@@ -8,7 +8,7 @@ describe Entry do
   let(:entry) do
     Entry.new(
       app, source_path, target_path, {
-        precompile: true, locales: locales
+        precompile: locales
       }
     )
   end
