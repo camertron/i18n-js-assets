@@ -1,0 +1,3 @@
+only: '*.my_app.*'
+locales:
+  - es

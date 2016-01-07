@@ -1,12 +1,15 @@
 # encoding: UTF-8
 
+require 'tilt'
+require 'i18n-js'
+
 module I18nJsAssets
   class Processor < ::Tilt::Template
     def prepare
       # noop
     end
 
-    def evaluate(scope, locals, &block)
+    def evaluate(scope, locals)
       options = (YAML.load(data) || {}).with_indifferent_access
       only = options.fetch(:only, '*')
       exceptions = [options.fetch(:except, [])].flatten
@@ -18,14 +21,17 @@ module I18nJsAssets
         i18n_js.segment_for_scope(only)
       end
 
-      construct_javascript_from(translations)
+      locales = options.fetch(:locales, translations.keys).map(&:to_sym)
+
+      construct_javascript_from(locales, translations)
     end
 
-    protected
+    private
 
-    def construct_javascript_from(translations)
+    def construct_javascript_from(locales, translations)
       %(I18n.translations || (I18n.translations = {});\n).tap do |result|
         translations.each_pair do |locale, locale_translations|
+          next unless locales.include?(locale)
           result << construct_javascript_for_locale(locale, locale_translations)
         end
       end

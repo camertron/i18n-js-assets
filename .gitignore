@@ -3,4 +3,4 @@ Gemfile.lock
 pkg/
 spec/tmp
 spec/log
-tmp/
+spec/public
