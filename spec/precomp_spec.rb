@@ -13,9 +13,11 @@ describe 'precompilation' do
     assets_config.generated.apply!
 
     begin
+      # this is for Rails 3
       Rake::Task['assets:precompile:primary'].invoke
       Rake::Task['assets:precompile:nondigest'].invoke
     rescue RuntimeError
+      # this is for Rails 4
       Rake::Task['assets:precompile'].invoke
     end
 
