@@ -1,1 +1,1 @@
-//= require i18n/translations
+//= require translations/includable
