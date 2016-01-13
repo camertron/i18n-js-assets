@@ -10,3 +10,7 @@
 
 * Add the ability to split .i18njs files into individual files, one per locale.
 
+== 1.2.1
+
+* Make sure the I18n js object exists before using it.
+
