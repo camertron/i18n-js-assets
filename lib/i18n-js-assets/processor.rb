@@ -29,7 +29,7 @@ module I18nJsAssets
     private
 
     def construct_javascript_from(locales, translations)
-      %(I18n.translations || (I18n.translations = {});\n).tap do |result|
+      %(var I18n = I18n || {}; I18n.translations || (I18n.translations = {});\n).tap do |result|
         translations.each_pair do |locale, locale_translations|
           next unless locales.include?(locale)
           result << construct_javascript_for_locale(locale, locale_translations)
