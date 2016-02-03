@@ -16,4 +16,4 @@
 
 == 1.2.2
 
-* Explicit rails version checking in railtie.
+* Rescue all exceptions when adding initializers in railtie.
