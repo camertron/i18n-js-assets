@@ -12,16 +12,15 @@ module I18nJsAssets
       end
     end
 
-    if Rails::VERSION::MAJOR == 3
-      initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
-        if app.assets
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
-        end
+    config.after_initialize do |app|
+      begin
+        app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+      rescue
       end
     end
 
-    if Rails::VERSION::MAJOR == 4
-      config.after_initialize do |app|
+    initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
+      if app.assets
         app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
       end
     end
