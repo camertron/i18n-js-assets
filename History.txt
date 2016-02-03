@@ -14,3 +14,6 @@
 
 * Make sure the I18n js object exists before using it.
 
+== 1.2.2
+
+* Explicit rails version checking in railtie.
