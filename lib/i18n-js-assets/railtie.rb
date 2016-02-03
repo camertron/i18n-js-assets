@@ -12,6 +12,7 @@ module I18nJsAssets
       end
     end
 
+    # this is for rails 3
     config.after_initialize do |app|
       begin
         app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
@@ -19,6 +20,7 @@ module I18nJsAssets
       end
     end
 
+    # this is for rails 4
     initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
       if app.assets
         app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
