@@ -20,10 +20,25 @@ module I18nJsAssets
       end
     end
 
-    # this is for rails 4
+    # this is for rails 4, sprockets < 4
     initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
       if app.assets
         app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+      end
+    end
+
+    # this is for rails 4, sprockets 4
+    #
+    # (in this case the 'sprockets.environment' hook won't fire)
+    if defined?(Sprockets) && Sprockets::VERSION.to_f >= 4
+      config.assets.configure do |env|
+        i18n_processor_adapter = proc do |params|
+          processor = I18nJsAssets::Processor.new { params[:data] }
+          { data: processor.render }
+        end
+
+        env.register_mime_type 'text/i18njs', extensions: ['.i18njs', '.js.i18njs']
+        env.register_transformer 'text/i18njs', 'application/javascript', i18n_processor_adapter
       end
     end
   end
