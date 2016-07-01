@@ -38,7 +38,7 @@ module I18nJsAssets
     end
 
     def construct_javascript_for_locale(locale, translations)
-      %(I18n.translations["#{locale}"] = #{translations.to_json};\n)
+      %{I18n.translations["#{locale}"] = I18n.extend((I18n.translations["#{locale}"] || {}), #{translations.to_json});\n}
     end
 
     def i18n_js

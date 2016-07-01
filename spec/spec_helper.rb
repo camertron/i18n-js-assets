@@ -22,11 +22,11 @@ module LetDeclarations
   extend RSpec::SharedContext
 
   let(:en_source) do
-    %Q(I18n.translations["en"] = {"my_app":{"teapot":"I'm a little teapot"}};)
+    %Q(I18n.translations["en"] = I18n.extend((I18n.translations["en"] || {}), {"my_app":{"teapot":"I'm a little teapot"}});)
   end
 
   let(:es_source) do
-    %Q(I18n.translations["es"] = {"my_app":{"teapot":"Soy una tetera pequeña"}};)
+    %Q(I18n.translations["es"] = I18n.extend((I18n.translations["es"] || {}), {"my_app":{"teapot":"Soy una tetera pequeña"}});)
   end
 
   let(:assets_config) do
