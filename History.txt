@@ -17,3 +17,7 @@
 == 1.2.2
 
 * Rescue all exceptions when adding initializers in railtie.
+
+== 1.3.0
+
+* Add support for sprockets 4.
