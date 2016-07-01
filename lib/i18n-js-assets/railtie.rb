@@ -16,13 +16,11 @@ module I18nJsAssets
       end
     end
 
-    # this is for certain versions of rails 3
-    if rails3?
-      config.after_initialize do |app|
-        begin
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
-        rescue
-        end
+    # this is for certain versions of rails 3 and rails 4
+    config.after_initialize do |app|
+      begin
+        app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+      rescue
       end
     end
 
