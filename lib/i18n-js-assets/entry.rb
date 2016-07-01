@@ -4,6 +4,8 @@ require 'fileutils'
 
 module I18nJsAssets
   class Entry
+    include Versioning
+
     attr_reader :app, :source_path, :target_path, :options
 
     def initialize(app, source_path, target_path, options)
@@ -40,7 +42,13 @@ module I18nJsAssets
     end
 
     def absolute_source_path
-      app.assets.resolve(source_path)
+      path = app.assets.resolve(source_path)
+
+      if sprockets4? && path.is_a?(Array)
+        URI.parse(path.first).path
+      else
+        path
+      end
     end
 
     def locales
