@@ -8,6 +8,18 @@ module I18nJsAssets
 
     config.before_configuration do |app|
       app.config.assets.localized = I18nJsAssets::Manifest.new(app)
+
+      # At this point, application locales are not yet part of I18n.load_path.
+      # Ideally, this would be done after I18n.load_path is fully initialzed
+      # However, by that time Sprockets will already have made a copy of app.config.assets.paths
+      # To ensure that updated i18n assets get reloaded, we need to make sure Sprockets knows about the .yml dependencies.
+      # Getting the dependencies through config.assets.paths seems to be the best solution for now
+      # However, ideally, these dependencies would come directly from i18n files, so only affected files are reloaded
+      # (config.assets.paths changing causes a full recompile of the asset cache)
+      i18n_paths = I18n.load_path.to_set + Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+      digest = Digest::SHA256.new
+      i18n_paths.each { |path| digest << File.read(path) }
+      app.config.assets.paths << File.join("#{GeneratedAssets.asset_dir}/i18n-js-assets-#{digest.hexdigest}", app.class.parent_name)
     end
 
     config.before_initialize do |app|
