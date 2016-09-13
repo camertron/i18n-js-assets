@@ -33,11 +33,11 @@ module I18nJsAssets
     # this is for rails 3/4, sprockets < 4
     if !sprockets4?
       initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
-        if app.assets
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+        assets = app.assets || app.config.assets
+        if assets
+          assets.register_engine('.i18njs', I18nJsAssets::Processor)
+          assets.append_path(i18n_state_digest_path)
         end
-
-        app.assets.append_path(i18n_state_digest_path)
       end
     end
 
