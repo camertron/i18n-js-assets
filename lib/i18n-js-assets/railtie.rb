@@ -24,11 +24,19 @@ module I18nJsAssets
       end
     end
 
+    def i18n_state_digest_path
+      digest = Digest::SHA256.new
+      I18n.load_path.each { |path| digest << File.read(path) }
+      File.join("#{GeneratedAssets.asset_dir}/i18n-js-assets-#{digest.hexdigest}")
+    end
+
     # this is for rails 3/4, sprockets < 4
     if !sprockets4?
       initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
-        if app.assets
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+        assets = app.assets || app.config.assets
+        if assets
+          assets.register_engine('.i18njs', I18nJsAssets::Processor)
+          assets.append_path(i18n_state_digest_path)
         end
       end
     end
@@ -45,6 +53,11 @@ module I18nJsAssets
 
         env.register_mime_type 'text/i18njs', extensions: ['.i18njs', '.js.i18njs']
         env.register_transformer 'text/i18njs', 'application/javascript', i18n_processor_adapter
+
+        # To ensure that updated i18n assets get reloaded, we need to make sure Sprockets knows about the .yml dependencies.
+        # Changing the dependencies via environment-paths (generated based off env.paths which we modify here) seems to be the best solution for now
+        # The downside is that the entire cache is recompiled when an i18n .yml changes
+        env.append_path(i18n_state_digest_path)
       end
     end
   end
