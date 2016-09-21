@@ -5,7 +5,7 @@ $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'rubygems' unless ENV['NO_RUBYGEMS']
 
 require 'bundler'
-require 'pry-nav'
+require 'pry-byebug'
 require 'rspec/core/rake_task'
 require 'rubygems/package_task'
 
