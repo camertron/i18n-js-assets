@@ -3,7 +3,7 @@
 require 'rake'
 require 'rspec'
 require 'fileutils'
-require 'pry-nav'
+require 'pry-byebug'
 
 require 'rails'
 require 'sprockets/railtie'
