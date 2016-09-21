@@ -21,3 +21,8 @@
 == 1.3.0
 
 * Add support for sprockets 4.
+
+== 2.0.0
+
+* Silence Sprockets deprecation warnings.
+* Remove support for Rails 3.
