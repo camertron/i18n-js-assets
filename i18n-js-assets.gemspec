@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   if ENV['RAILS_VERSION']
     s.add_dependency 'railties', "~> #{ENV['RAILS_VERSION']}"
   else
-    s.add_dependency 'railties', '>= 3.2.0', '< 5'
+    s.add_dependency 'railties', '>= 4.0', '< 5'
   end
 
   s.add_dependency 'generated-assets', '~> 1.0'
