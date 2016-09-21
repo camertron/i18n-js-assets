@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'digest'
 require 'i18n-js-assets'
 
 module I18nJsAssets
@@ -10,10 +11,10 @@ module I18nJsAssets
       app.config.assets.localized = I18nJsAssets::Manifest.new(app)
     end
 
-    config.before_initialize do |app|
-      app.config.assets.generated.before_apply do
-        app.config.assets.localized.apply!
-      end
+    config.after_initialize do |app|
+      app.config.assets.paths << app.config.assets.localized.prefix
+      app.assets.append_path(app.config.assets.localized.prefix)
+      app.config.assets.localized.apply!
     end
 
     # this is for certain versions of rails 3 and rails 4
@@ -21,15 +22,6 @@ module I18nJsAssets
       begin
         app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
       rescue
-      end
-    end
-
-    # this is for rails 3/4, sprockets < 4
-    if !sprockets4?
-      initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
-        if app.assets
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
-        end
       end
     end
 
@@ -45,6 +37,13 @@ module I18nJsAssets
 
         env.register_mime_type 'text/i18njs', extensions: ['.i18njs', '.js.i18njs']
         env.register_transformer 'text/i18njs', 'application/javascript', i18n_processor_adapter
+      end
+    else
+      # this is for rails 4, sprockets < 4
+      initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
+        if app.assets
+          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+        end
       end
     end
   end

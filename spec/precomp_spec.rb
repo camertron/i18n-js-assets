@@ -10,7 +10,7 @@ describe 'precompilation' do
     )
 
     # generated.apply! will trigger localized.apply! via before hook
-    assets_config.generated.apply!
+    assets_config.localized.apply!
 
     begin
       # this is for Rails 3

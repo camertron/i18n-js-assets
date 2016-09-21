@@ -1,6 +1,7 @@
 # encoding: UTF-8
 
 require 'spec_helper'
+require 'generated-assets'
 
 include I18nJsAssets
 
@@ -25,13 +26,15 @@ describe Entry do
     [:en, :es]
   end
 
+  let(:base_manifest) do
+    prefix = File.join(GeneratedAssets.asset_dir, app.class.parent_name)
+    GeneratedAssets::Manifest.new(app, prefix)
+  end
+
   describe '#apply!' do
     it 'adds entries for each locale' do
-      entry.apply!
-
-      paths = app.config.assets
-        .generated.entries.map(&:logical_path)
-        .sort
+      entry.apply!(base_manifest)
+      paths = base_manifest.entries.map(&:logical_path).sort
 
       expect(paths).to(
         eq([
