@@ -17,32 +17,21 @@ module I18nJsAssets
       app.config.assets.localized.apply!
     end
 
-    # this is for certain versions of rails 3 and rails 4
-    config.after_initialize do |app|
-      begin
-        app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
-      rescue
-      end
-    end
-
-    # this is for rails 4, sprockets 4
-    #
-    # (in this case the 'sprockets.environment' hook won't fire)
-    if sprockets4?
-      config.assets.configure do |env|
-        i18n_processor_adapter = proc do |params|
-          processor = I18nJsAssets::Processor.new { params[:data] }
-          { data: processor.render }
-        end
-
+    config.assets.configure do |env|
+      if env.respond_to?(:register_transformer)
         env.register_mime_type 'text/i18njs', extensions: ['.i18njs', '.js.i18njs']
-        env.register_transformer 'text/i18njs', 'application/javascript', i18n_processor_adapter
+        env.register_transformer 'text/i18njs', 'application/javascript', I18nJsAssets::Transformer
       end
-    else
-      # this is for rails 4, sprockets < 4
-      initializer :i18n_js_assets, after: 'sprockets.environment' do |app|
-        if app.assets
-          app.assets.register_engine('.i18njs', I18nJsAssets::Processor)
+
+      if env.respond_to?(:register_engine)
+        %w(.i18njs .js.i18njs).each do |extension|
+          args = [extension, I18nJsAssets::Transformer]
+
+          if Sprockets::VERSION.start_with?('3')
+            args << { mime_type: 'text/i18njs', silence_deprecation: true }
+          end
+
+          env.register_engine(*args)
         end
       end
     end

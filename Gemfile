@@ -9,9 +9,8 @@ else
 end
 
 group :development, :test do
-  gem 'tilt'
-
-  gem 'pry-nav'
   gem 'rake'
   gem 'rspec'
+  gem 'pry-byebug'
+  gem 'wwtd'
 end
