@@ -15,10 +15,10 @@ module I18nJsAssets
       @options = options
     end
 
-    def apply!
+    def apply!(base_manifest)
       each_file do |locale, interpolated_target_path|
         path = "#{interpolated_target_path}.i18njs"
-        app.config.assets.generated.add(path, options) do
+        base_manifest.add(path, options) do
           source.overwrite('locales' => [locale]).dump
         end
       end

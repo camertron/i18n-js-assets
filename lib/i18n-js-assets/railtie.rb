@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'digest'
 require 'i18n-js-assets'
 
 module I18nJsAssets
@@ -10,10 +11,10 @@ module I18nJsAssets
       app.config.assets.localized = I18nJsAssets::Manifest.new(app)
     end
 
-    config.before_initialize do |app|
-      app.config.assets.generated.before_apply do
-        app.config.assets.localized.apply!
-      end
+    config.after_initialize do |app|
+      app.config.assets.paths << app.config.assets.localized.prefix
+      app.assets.append_path(app.config.assets.localized.prefix)
+      app.config.assets.localized.apply!
     end
 
     config.assets.configure do |env|

@@ -80,6 +80,10 @@ config.assets.localized.add(
 
 Notice the special `%{locale}` interpolation placeholder. Now when assets are precompiled, you should see one file per locale in the `i18n` directory, eg: `i18n/translations-en.js`, `i18n/translations-es.js`, `i18n/translations-ko.js`, etc. Note that the `precompile` option shown above can also be a proc or lambda that returns an array of locale strings. Note also that the list of locales specified by the `precompile` option takes precedence over the `locales` list in any source .i18njs file.
 
+## Requirements
+
+Your Rails app needs to be using i18n-js v3.0.0 (currently release candidate 14).
+
 ## License
 
 Licensed under the MIT license. See LICENSE for details.
