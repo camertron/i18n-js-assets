@@ -26,3 +26,7 @@
 
 * Silence Sprockets deprecation warnings.
 * Remove support for Rails 3.
+
+== 2.1.0
+
+* Support for Rails 5.
