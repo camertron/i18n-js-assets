@@ -10,6 +10,12 @@ module I18nJsAssets
         only = options.fetch(:only, '*')
         exceptions = [options.fetch(:except, [])].flatten
 
+        # add dependencies to this asset so that any changes to files on the
+        # I18n load path cause this asset to be recompiled
+        I18n.load_path.each do |path|
+          context.depend_on(path)
+        end
+
         # handle newer and older versions of i18n-js
         translations = if i18n_js.method(:segment_for_scope).arity == 2
           i18n_js.segment_for_scope(only, exceptions)

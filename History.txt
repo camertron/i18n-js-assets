@@ -30,3 +30,7 @@
 == 2.1.0
 
 * Support for Rails 5.
+
+== 2.2.0
+
+* .i18njs files now depend_on files in the I18n load path so they get automatically recompiled (i.e. in development) if one of your .yml files changes.
